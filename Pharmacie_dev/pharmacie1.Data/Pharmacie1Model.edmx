@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PharmacieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="COMMANDE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATECOMMANDE" Type="datetime" />
+          <Property Name="QUANTITYDEMANDE" Type="nvarchar(max)" />
+          <Property Name="ID_LABORATOIRE" Type="int" />
+          <Property Name="ID_PRODUCT" Type="int" />
+          <Property Name="RECEIVED" Type="nvarchar(max)" />
+          <Property Name="QUNTITYRECIEVED" Type="nvarchar(max)" />
+          <Property Name="DATERECEIVED" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LABORATOIRE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAMEL" Type="nvarchar(max)" />
+          <Property Name="DESCRIPTIONS" Type="nvarchar(max)" />
+          <Property Name="MAIL" Type="nvarchar(max)" />
+          <Property Name="PHONE" Type="nvarchar(max)" />
+          <Property Name="CITY" Type="nvarchar(max)" />
+          <Property Name="CODEPOSTAL" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PRODUIT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CODECIP" Type="nvarchar(max)" />
+          <Property Name="NAMEP" Type="nvarchar(max)" />
+          <Property Name="DESCRIPTIONS" Type="nvarchar(max)" />
+          <Property Name="DOSAGE" Type="int" />
+          <Property Name="IS_ORDONNACE" Type="nvarchar(max)" />
+          <Property Name="CNAM" Type="nvarchar(max)" />
+          <Property Name="PRIXACHAT" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PRIXVENTE" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ID_LABORATOIR" Type="int" />
+          <Property Name="CLASS" Type="nvarchar(max)" />
+          <Property Name="FORM" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="STOCK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QUANTITY" Type="nvarchar(max)" />
+          <Property Name="ID_PRODUCT" Type="int" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIRSTNAME" Type="nvarchar(max)" />
+          <Property Name="LASTNAME" Type="nvarchar(max)" />
+          <Property Name="CIN" Type="int" />
+          <Property Name="CITY" Type="nvarchar(max)" />
+          <Property Name="PHONE" Type="nvarchar(max)" />
+          <Property Name="EMAIL" Type="nvarchar(max)" />
+          <Property Name="BIRTHDAY" Type="datetime" />
+          <Property Name="LOGIN" Type="nvarchar(max)" />
+          <Property Name="PASSWORD" Type="nvarchar(max)" />
+          <Property Name="RIB" Type="nvarchar(max)" />
+          <Property Name="ROLE" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VENTE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATEVENTE" Type="datetime" />
+          <Property Name="QUANTITY" Type="nvarchar(max)" />
+          <Property Name="ID_PRODUCT" Type="int" />
+        </EntityType>
+        <Association Name="FK_COMMANDE_PRODUIT">
+          <End Role="PRODUIT" Type="Self.PRODUIT" Multiplicity="0..1" />
+          <End Role="COMMANDE" Type="Self.COMMANDE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMANDE">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LABORATOIRE_COMMANDE">
+          <End Role="LABORATOIRE" Type="Self.LABORATOIRE" Multiplicity="0..1" />
+          <End Role="COMMANDE" Type="Self.COMMANDE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LABORATOIRE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMANDE">
+              <PropertyRef Name="ID_LABORATOIRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUIT_LABORATOIRE">
+          <End Role="LABORATOIRE" Type="Self.LABORATOIRE" Multiplicity="0..1" />
+          <End Role="PRODUIT" Type="Self.PRODUIT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LABORATOIRE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUIT">
+              <PropertyRef Name="ID_LABORATOIR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUIT_VENTE">
+          <End Role="PRODUIT" Type="Self.PRODUIT" Multiplicity="0..1" />
+          <End Role="VENTE" Type="Self.VENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VENTE">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STOCK_PRODUIT">
+          <End Role="PRODUIT" Type="Self.PRODUIT" Multiplicity="0..1" />
+          <End Role="STOCK" Type="Self.STOCK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="STOCK">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PharmacieModelStoreContainer">
+          <EntitySet Name="COMMANDE" EntityType="Self.COMMANDE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LABORATOIRE" EntityType="Self.LABORATOIRE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUIT" EntityType="Self.PRODUIT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STOCK" EntityType="Self.STOCK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENTE" EntityType="Self.VENTE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_COMMANDE_PRODUIT" Association="Self.FK_COMMANDE_PRODUIT">
+            <End Role="PRODUIT" EntitySet="PRODUIT" />
+            <End Role="COMMANDE" EntitySet="COMMANDE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LABORATOIRE_COMMANDE" Association="Self.FK_LABORATOIRE_COMMANDE">
+            <End Role="LABORATOIRE" EntitySet="LABORATOIRE" />
+            <End Role="COMMANDE" EntitySet="COMMANDE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUIT_LABORATOIRE" Association="Self.FK_PRODUIT_LABORATOIRE">
+            <End Role="LABORATOIRE" EntitySet="LABORATOIRE" />
+            <End Role="PRODUIT" EntitySet="PRODUIT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUIT_VENTE" Association="Self.FK_PRODUIT_VENTE">
+            <End Role="PRODUIT" EntitySet="PRODUIT" />
+            <End Role="VENTE" EntitySet="VENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STOCK_PRODUIT" Association="Self.FK_STOCK_PRODUIT">
+            <End Role="PRODUIT" EntitySet="PRODUIT" />
+            <End Role="STOCK" EntitySet="STOCK" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PharmacieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIRSTNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LASTNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CIN" Type="Int32" />
+          <Property Name="CITY" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BIRTHDAY" Type="DateTime" Precision="3" />
+          <Property Name="LOGIN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RIB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ROLE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="PharmacieEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="USERS" EntityType="Self.USERS" />
+          <EntitySet Name="COMMANDEs" EntityType="PharmacieModel.COMMANDE" />
+          <EntitySet Name="LABORATOIREs" EntityType="PharmacieModel.LABORATOIRE" />
+          <EntitySet Name="PRODUITs" EntityType="PharmacieModel.PRODUIT" />
+          <EntitySet Name="STOCKs" EntityType="PharmacieModel.STOCK" />
+          <EntitySet Name="VENTEs" EntityType="PharmacieModel.VENTE" />
+          <AssociationSet Name="FK_COMMANDE_PRODUIT" Association="PharmacieModel.FK_COMMANDE_PRODUIT">
+            <End Role="PRODUIT" EntitySet="PRODUITs" />
+            <End Role="COMMANDE" EntitySet="COMMANDEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LABORATOIRE_COMMANDE" Association="PharmacieModel.FK_LABORATOIRE_COMMANDE">
+            <End Role="LABORATOIRE" EntitySet="LABORATOIREs" />
+            <End Role="COMMANDE" EntitySet="COMMANDEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUIT_LABORATOIRE" Association="PharmacieModel.FK_PRODUIT_LABORATOIRE">
+            <End Role="LABORATOIRE" EntitySet="LABORATOIREs" />
+            <End Role="PRODUIT" EntitySet="PRODUITs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUIT_VENTE" Association="PharmacieModel.FK_PRODUIT_VENTE">
+            <End Role="PRODUIT" EntitySet="PRODUITs" />
+            <End Role="VENTE" EntitySet="VENTEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STOCK_PRODUIT" Association="PharmacieModel.FK_STOCK_PRODUIT">
+            <End Role="PRODUIT" EntitySet="PRODUITs" />
+            <End Role="STOCK" EntitySet="STOCKs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="COMMANDE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATECOMMANDE" Type="DateTime" Precision="3" />
+          <Property Name="QUANTITYDEMANDE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_LABORATOIRE" Type="Int32" />
+          <Property Name="ID_PRODUCT" Type="Int32" />
+          <Property Name="RECEIVED" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="QUNTITYRECIEVED" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DATERECEIVED" Type="DateTime" Precision="3" />
+          </EntityType>
+        <EntityType Name="LABORATOIRE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAMEL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTIONS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CITY" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CODEPOSTAL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PRODUIT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CODECIP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NAMEP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTIONS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DOSAGE" Type="Int32" />
+          <Property Name="IS_ORDONNACE" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CNAM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PRIXACHAT" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PRIXVENTE" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_LABORATOIR" Type="Int32" />
+          <Property Name="CLASS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FORM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          </EntityType>
+        <EntityType Name="STOCK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QUANTITY" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_PRODUCT" Type="Int32" />
+        </EntityType>
+        <EntityType Name="VENTE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATEVENTE" Type="DateTime" Precision="3" />
+          <Property Name="QUANTITY" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_PRODUCT" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_COMMANDE_PRODUIT">
+          <End Type="PharmacieModel.PRODUIT" Role="PRODUIT" Multiplicity="0..1" />
+          <End Type="PharmacieModel.COMMANDE" Role="COMMANDE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMANDE">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LABORATOIRE_COMMANDE">
+          <End Type="PharmacieModel.LABORATOIRE" Role="LABORATOIRE" Multiplicity="0..1" />
+          <End Type="PharmacieModel.COMMANDE" Role="COMMANDE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LABORATOIRE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMANDE">
+              <PropertyRef Name="ID_LABORATOIRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUIT_LABORATOIRE">
+          <End Type="PharmacieModel.LABORATOIRE" Role="LABORATOIRE" Multiplicity="0..1" />
+          <End Type="PharmacieModel.PRODUIT" Role="PRODUIT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LABORATOIRE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUIT">
+              <PropertyRef Name="ID_LABORATOIR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUIT_VENTE">
+          <End Type="PharmacieModel.PRODUIT" Role="PRODUIT" Multiplicity="0..1" />
+          <End Type="PharmacieModel.VENTE" Role="VENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VENTE">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STOCK_PRODUIT">
+          <End Type="PharmacieModel.PRODUIT" Role="PRODUIT" Multiplicity="0..1" />
+          <End Type="PharmacieModel.STOCK" Role="STOCK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="STOCK">
+              <PropertyRef Name="ID_PRODUCT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PharmacieModelStoreContainer" CdmEntityContainer="PharmacieEntities">
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="PharmacieModel.USERS">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="ROLE" ColumnName="ROLE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="BIRTHDAY" ColumnName="BIRTHDAY" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="RIB" ColumnName="RIB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMANDEs">
+            <EntityTypeMapping TypeName="PharmacieModel.COMMANDE">
+              <MappingFragment StoreEntitySet="COMMANDE">
+                <ScalarProperty Name="DATERECEIVED" ColumnName="DATERECEIVED" />
+                <ScalarProperty Name="QUNTITYRECIEVED" ColumnName="QUNTITYRECIEVED" />
+                <ScalarProperty Name="RECEIVED" ColumnName="RECEIVED" />
+                <ScalarProperty Name="ID_PRODUCT" ColumnName="ID_PRODUCT" />
+                <ScalarProperty Name="ID_LABORATOIRE" ColumnName="ID_LABORATOIRE" />
+                <ScalarProperty Name="QUANTITYDEMANDE" ColumnName="QUANTITYDEMANDE" />
+                <ScalarProperty Name="DATECOMMANDE" ColumnName="DATECOMMANDE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LABORATOIREs">
+            <EntityTypeMapping TypeName="PharmacieModel.LABORATOIRE">
+              <MappingFragment StoreEntitySet="LABORATOIRE">
+                <ScalarProperty Name="CODEPOSTAL" ColumnName="CODEPOSTAL" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="MAIL" ColumnName="MAIL" />
+                <ScalarProperty Name="DESCRIPTIONS" ColumnName="DESCRIPTIONS" />
+                <ScalarProperty Name="NAMEL" ColumnName="NAMEL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUITs">
+            <EntityTypeMapping TypeName="PharmacieModel.PRODUIT">
+              <MappingFragment StoreEntitySet="PRODUIT">
+                <ScalarProperty Name="FORM" ColumnName="FORM" />
+                <ScalarProperty Name="CLASS" ColumnName="CLASS" />
+                <ScalarProperty Name="ID_LABORATOIR" ColumnName="ID_LABORATOIR" />
+                <ScalarProperty Name="PRIXVENTE" ColumnName="PRIXVENTE" />
+                <ScalarProperty Name="PRIXACHAT" ColumnName="PRIXACHAT" />
+                <ScalarProperty Name="CNAM" ColumnName="CNAM" />
+                <ScalarProperty Name="IS_ORDONNACE" ColumnName="IS_ORDONNACE" />
+                <ScalarProperty Name="DOSAGE" ColumnName="DOSAGE" />
+                <ScalarProperty Name="DESCRIPTIONS" ColumnName="DESCRIPTIONS" />
+                <ScalarProperty Name="NAMEP" ColumnName="NAMEP" />
+                <ScalarProperty Name="CODECIP" ColumnName="CODECIP" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STOCKs">
+            <EntityTypeMapping TypeName="PharmacieModel.STOCK">
+              <MappingFragment StoreEntitySet="STOCK">
+                <ScalarProperty Name="ID_PRODUCT" ColumnName="ID_PRODUCT" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENTEs">
+            <EntityTypeMapping TypeName="PharmacieModel.VENTE">
+              <MappingFragment StoreEntitySet="VENTE">
+                <ScalarProperty Name="ID_PRODUCT" ColumnName="ID_PRODUCT" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="DATEVENTE" ColumnName="DATEVENTE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
